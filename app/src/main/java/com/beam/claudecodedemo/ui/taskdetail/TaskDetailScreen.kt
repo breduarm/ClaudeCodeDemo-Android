@@ -32,10 +32,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beam.claudecodedemo.ui.navigation.Screen
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,6 +119,21 @@ fun TaskDetailScreen(
                     maxLines = 8,
                     modifier = Modifier.fillMaxWidth()
                 )
+
+                if (isEditMode && uiState.createdAt > 0L) {
+                    val dateFormat = remember { SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault()) }
+                    val wasModified = uiState.modifiedAt > 0L && uiState.modifiedAt != uiState.createdAt
+                    val label = if (wasModified) "Last modification" else "Created at"
+                    val timestamp = if (wasModified) uiState.modifiedAt else uiState.createdAt
+                    Text(
+                        text = "$label: ${dateFormat.format(Date(timestamp))}",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 11.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
 
                 if (isEditMode) {
                     Row(

@@ -20,6 +20,7 @@ data class TaskDetailUiState(
     val description: String = "",
     val isDone: Boolean = false,
     val createdAt: Long = 0L,
+    val modifiedAt: Long = 0L,
     val isLoading: Boolean = false,
     val isSaved: Boolean = false,
     val errorMessage: String? = null
@@ -53,6 +54,7 @@ class TaskDetailViewModel @Inject constructor(
                         description = task.description,
                         isDone = task.isDone,
                         createdAt = task.createdAt,
+                        modifiedAt = task.modifiedAt,
                         isLoading = false
                     )
                 }
