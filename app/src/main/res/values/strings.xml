@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">ClaudeCodeDemo</string>
+
+    <!-- Task List -->
+    <string name="task_list_title">My Tasks</string>
+    <string name="add_task">New task</string>
+    <string name="empty_state_message">No tasks yet. Add one with the + button!</string>
+    <string name="delete_task">Delete</string>
+
+    <!-- Task Detail -->
+    <string name="new_task_title">New Task</string>
+    <string name="edit_task_title">Edit Task</string>
+    <string name="back">Back</string>
+    <string name="field_title">Title *</string>
+    <string name="field_description">Description</string>
+    <string name="task_completed">Task completed</string>
+    <string name="save">Save</string>
+    <string name="label_created_at">Created at</string>
+    <string name="label_last_modification">Last modification</string>
+
+    <!-- Validation -->
+    <string name="error_title_empty">Title cannot be empty</string>
 </resources>

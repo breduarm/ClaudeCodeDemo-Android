@@ -32,11 +32,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.beam.claudecodedemo.R
 import com.beam.claudecodedemo.ui.navigation.Screen
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -56,9 +58,10 @@ fun TaskDetailScreen(
         if (uiState.isSaved) onNavigateBack()
     }
 
-    LaunchedEffect(uiState.errorMessage) {
-        uiState.errorMessage?.let { message ->
-            snackbarHostState.showSnackbar(message)
+    val errorMessage = uiState.errorRes?.let { stringResource(it) }
+    LaunchedEffect(uiState.errorRes) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(it)
             viewModel.clearError()
         }
     }
@@ -66,12 +69,12 @@ fun TaskDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (isEditMode) "Editar Tarea" else "Nueva Tarea") },
+                title = { Text(stringResource(if (isEditMode) R.string.edit_task_title else R.string.new_task_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Regresar"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 },
@@ -105,16 +108,16 @@ fun TaskDetailScreen(
                 OutlinedTextField(
                     value = uiState.title,
                     onValueChange = viewModel::onTitleChange,
-                    label = { Text("Título *") },
+                    label = { Text(stringResource(R.string.field_title)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
-                    isError = uiState.errorMessage != null
+                    isError = uiState.errorRes != null
                 )
 
                 OutlinedTextField(
                     value = uiState.description,
                     onValueChange = viewModel::onDescriptionChange,
-                    label = { Text("Descripción") },
+                    label = { Text(stringResource(R.string.field_description)) },
                     minLines = 4,
                     maxLines = 8,
                     modifier = Modifier.fillMaxWidth()
@@ -123,7 +126,7 @@ fun TaskDetailScreen(
                 if (isEditMode && uiState.createdAt > 0L) {
                     val dateFormat = remember { SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault()) }
                     val wasModified = uiState.modifiedAt > 0L && uiState.modifiedAt != uiState.createdAt
-                    val label = if (wasModified) "Last modification" else "Created at"
+                    val label = stringResource(if (wasModified) R.string.label_last_modification else R.string.label_created_at)
                     val timestamp = if (wasModified) uiState.modifiedAt else uiState.createdAt
                     Text(
                         text = "$label: ${dateFormat.format(Date(timestamp))}",
@@ -142,7 +145,7 @@ fun TaskDetailScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "Tarea completada",
+                            text = stringResource(R.string.task_completed),
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Switch(
@@ -158,7 +161,7 @@ fun TaskDetailScreen(
                     onClick = viewModel::saveTask,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Guardar")
+                    Text(stringResource(R.string.save))
                 }
             }
         }

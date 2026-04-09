@@ -34,11 +34,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.beam.claudecodedemo.R
 import com.beam.claudecodedemo.data.model.Task
 import com.beam.claudecodedemo.ui.navigation.Screen
 
@@ -53,7 +55,7 @@ fun TaskListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Mis Tareas") },
+                title = { Text(stringResource(R.string.task_list_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -64,7 +66,7 @@ fun TaskListScreen(
             FloatingActionButton(
                 onClick = { onNavigateToDetail(Screen.TaskDetail.NEW_TASK_ID) }
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Nueva tarea")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_task))
             }
         }
     ) { innerPadding ->
@@ -79,7 +81,7 @@ fun TaskListScreen(
                 }
                 uiState.tasks.isEmpty() -> {
                     Text(
-                        text = "No hay tareas. ¡Agrega una con el botón +!",
+                        text = stringResource(R.string.empty_state_message),
                         modifier = Modifier
                             .align(Alignment.Center)
                             .padding(24.dp),
@@ -138,7 +140,7 @@ private fun SwipeableTaskItem(
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar",
+                    contentDescription = stringResource(R.string.delete_task),
                     tint = Color.White,
                     modifier = Modifier.padding(end = 8.dp)
                 )
