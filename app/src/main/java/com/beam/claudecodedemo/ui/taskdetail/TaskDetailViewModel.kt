@@ -1,8 +1,10 @@
 package com.beam.claudecodedemo.ui.taskdetail
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beam.claudecodedemo.R
 import com.beam.claudecodedemo.data.model.Task
 import com.beam.claudecodedemo.data.repository.TaskRepository
 import com.beam.claudecodedemo.ui.navigation.Screen
@@ -23,7 +25,7 @@ data class TaskDetailUiState(
     val modifiedAt: Long = 0L,
     val isLoading: Boolean = false,
     val isSaved: Boolean = false,
-    val errorMessage: String? = null
+    @StringRes val errorRes: Int? = null
 )
 
 @HiltViewModel
@@ -63,7 +65,7 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun onTitleChange(value: String) {
-        _uiState.update { it.copy(title = value, errorMessage = null) }
+        _uiState.update { it.copy(title = value, errorRes = null) }
     }
 
     fun onDescriptionChange(value: String) {
@@ -77,7 +79,7 @@ class TaskDetailViewModel @Inject constructor(
     fun saveTask() {
         val state = _uiState.value
         if (state.title.isBlank()) {
-            _uiState.update { it.copy(errorMessage = "El título no puede estar vacío") }
+            _uiState.update { it.copy(errorRes = R.string.error_title_empty) }
             return
         }
         viewModelScope.launch {
@@ -108,6 +110,6 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun clearError() {
-        _uiState.update { it.copy(errorMessage = null) }
+        _uiState.update { it.copy(errorRes = null) }
     }
 }
