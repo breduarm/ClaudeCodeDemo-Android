@@ -1,10 +1,7 @@
 package com.beam.claudecodedemo.ui.navigation
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -31,18 +28,10 @@ fun TodoNavGraph(
     NavHost(
         navController = navController,
         startDestination = Screen.TaskList.route,
-        enterTransition = {
-            slideInHorizontally(initialOffsetX = { it }) + fadeIn(tween(300))
-        },
-        exitTransition = {
-            slideOutHorizontally(targetOffsetX = { -it / 3 }) + fadeOut(tween(300))
-        },
-        popEnterTransition = {
-            slideInHorizontally(initialOffsetX = { -it / 3 }) + fadeIn(tween(300))
-        },
-        popExitTransition = {
-            slideOutHorizontally(targetOffsetX = { it }) + fadeOut(tween(300))
-        }
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None }
     ) {
         composable(Screen.TaskList.route) {
             TaskListScreen(
